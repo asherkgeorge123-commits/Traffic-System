@@ -3,12 +3,9 @@
 A digital traffic-light controller designed in Logisim-Evolution as a coursework project, built to practice control-unit/datapath design and digital logic.
 
 ## Design
-The circuit is split into three subcircuits:
-- **Control Unit** — takes `RESET`, `CLK_In`, and `CAR_DETECT` as inputs and manages the timing/state logic
-- **Datapath** — connects the control unit's outputs to the output stage
-- **Sanitizer** — the output stage, driving 6 LEDs (`HL_in`, `FL_in` inputs) representing the light states
-
-Internally, the design uses a ROM lookup table, a counter, registers, and comparators to sequence the light states.
+- **Datapath:** two 3-bit registers (HL = highway, FL = farm road) hold the light state. A rotate unit and two multiplexers update them.
+- **Control unit:** a 6-bit counter steps through a 64x5 ROM. Each 5-bit word sets the register write-enables, register select, and function. RESET returns the counter to 0; CAR_DETECT holds the sequence until a car arrives.
+- **Sanitizer:** gate logic that guarantees exactly one LED per road is lit for any register value, and only lights green for the valid green state.
 
 ## How to open
 1. Install [Logisim-Evolution](https://github.com/logisim-evolution/logisim-evolution)
